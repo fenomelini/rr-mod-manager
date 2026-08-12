@@ -19,7 +19,7 @@ Baixe a versão mais recente na seção **Releases** deste repositório.
 
 ### Windows 11
 
-Baixe `RR Mod Manager_0.1.0_x64-setup.exe` e execute o instalador. A instalação
+Baixe `RR.Mod.Manager_0.1.0_x64-setup.exe` e execute o instalador. A instalação
 é feita somente para o usuário atual e não exige privilégios de administrador.
 
 O instalador ainda não possui assinatura digital. Por isso, o Windows pode
@@ -27,12 +27,12 @@ mostrar um aviso de editor desconhecido.
 
 ### Linux
 
-Baixe `RR Mod Manager_0.1.0_amd64.AppImage`, permita a execução do arquivo e
+Baixe `RR.Mod.Manager_0.1.0_amd64.AppImage`, permita a execução do arquivo e
 abra-o normalmente.
 
 ```bash
-chmod +x "RR Mod Manager_0.1.0_amd64.AppImage"
-./"RR Mod Manager_0.1.0_amd64.AppImage"
+chmod +x RR.Mod.Manager_0.1.0_amd64.AppImage
+./RR.Mod.Manager_0.1.0_amd64.AppImage
 ```
 
 ## Limitações atuais
