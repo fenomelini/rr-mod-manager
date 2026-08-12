@@ -1,23 +1,26 @@
 # RR Mod Manager 0.1.0
 
-Primeira versão pública do RR Mod Manager para Windows 11 x64 e Linux x64 com
-Steam/Proton.
+First public RR Mod Manager release for Windows 11 x64 and Linux x64 with Steam
+and Proton.
 
-## Incluído
+## Included
 
-- Importação manual de arquivos ZIP e 7z com revisão antes da instalação.
-- Gerenciamento de mods PAK, UE4SS e híbridos.
-- Perfis, ativação e desativação de mods.
-- Visualização de conflitos e ordenação determinística de PAKs.
-- Backups, restauração e recuperação de mudanças interrompidas.
-- Instalação e reparo do UE4SS.
-- Relatórios locais de problemas com revisão antes de salvar.
+- Steam installation discovery and exact game-build validation.
+- Manual ZIP and 7z import with review before installation.
+- PAK, UE4SS, and hybrid mod management.
+- Profiles with bulk mod activation and deactivation.
+- Conflict analysis and deterministic PAK ordering when it can be proven.
+- Game-file change previews before profile application.
+- Managed-file ownership, backups, rollback, and interrupted-change recovery.
+- UE4SS installation, repair, diagnostics, and shortcut analysis.
+- Local problem reports with review before saving.
+- Game launch through Steam after pending profile changes are applied.
 
-## Não incluído
+## Not Included
 
-- Login ou downloads automáticos do Nexus Mods.
-- Atualização automática do aplicativo ou dos mods.
-- Suporte a builds do jogo diferentes de `23896268`.
-- Garantia de segurança para DLLs nativas desconhecidas.
+- Nexus Mods login or managed downloads.
+- Automatic application or mod updates.
+- Support for game builds other than `23896268`.
+- Safety guarantees for unknown native UE4SS DLLs.
 
-Feche o Retro Rewind antes de aplicar mudanças em um perfil.
+Close Retro Rewind before applying a profile or changing UE4SS.

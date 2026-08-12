@@ -1,27 +1,41 @@
-# Privacidade
+# Privacy
 
-O RR Mod Manager funciona localmente e não usa telemetria comportamental. Ele
-não envia automaticamente listas de mods, caminhos do jogo, perfis, hashes,
-diagnósticos, logs ou o banco de dados.
+RR Mod Manager is local-first and does not use behavioral telemetry. It does
+not automatically send installed mod lists, game paths, profile names, file
+hashes, diagnostics, logs, or database contents.
 
-## Dados locais
+## Local Data
 
-O aplicativo guarda no computador os dados necessários para gerenciar mods,
-incluindo perfis, preferências, mods importados, cache, backups e informações de
-recuperação. Esses dados não são enviados automaticamente.
+The application stores the information required to manage mods in the current
+user's local application-data directory. This includes profiles, preferences,
+imported mod files, verified caches, deployment records, backups, temporary
+staging, and interrupted-operation recovery data.
 
-## Rede
+Profile and mod deletion is initiated by the user. Recovery records and backups
+may remain while they are needed to restore an incomplete operation safely.
 
-O acesso à rede ocorre apenas em ações iniciadas pelo usuário, como a instalação
-da versão suportada do UE4SS. Login, downloads do Nexus Mods e atualização
-automática do aplicativo não estão disponíveis nesta versão.
+## Network Access
 
-O modo offline bloqueia novas solicitações de rede. Arquivos já verificados no
-cache continuam disponíveis.
+Network access occurs only for actions started by the user, such as installing
+the supported UE4SS build. Nexus Mods login, managed Nexus downloads, and
+automatic application updates are not available in version `0.1.0`.
 
-## Relatórios de problemas
+Offline mode blocks new network requests. Files that were already downloaded,
+verified, and cached remain available locally.
 
-Relatórios são arquivos locais criados somente quando o usuário solicita. O
-conteúdo é mostrado antes de salvar e não é enviado pelo RR Mod Manager. Revise
-o arquivo antes de compartilhá-lo, pois a remoção automática de dados pessoais
-pode não cobrir todos os casos.
+## Problem Reports
+
+Problem reports are local files created only after the user requests them. RR
+Mod Manager shows a preview before saving and does not upload or transmit the
+report.
+
+A report may include an anonymized manager-state summary, the affected mod, the
+user's description, game and loader versions, and a bounded redacted log
+excerpt. Additional details require explicit selection. Automatic redaction is
+not infallible, so review every included file before sharing the report.
+
+## External Services
+
+Opening a mod page transfers control to the user's web browser and is governed
+by that website's privacy policy. RR Mod Manager does not scrape Nexus Mods or
+send credentials to third-party download hosts.
