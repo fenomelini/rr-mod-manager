@@ -403,7 +403,7 @@ mod platform {
             &directory,
             &filename,
             GENERIC_READ | FILE_READ_ATTRIBUTES | SYNCHRONIZE,
-            FILE_SHARE_READ,
+            FILE_SHARE_READ | FILE_SHARE_DELETE,
             FILE_OPEN,
             FILE_OPEN_REPARSE_POINT | FILE_SYNCHRONOUS_IO_NONALERT | FILE_NON_DIRECTORY_FILE,
         )?;
@@ -414,6 +414,17 @@ mod platform {
         let prepared = (|| {
             temporary.write_all(replacement)?;
             temporary.sync_all()?;
+            let current = open_component(
+                &directory,
+                &filename,
+                GENERIC_READ | FILE_READ_ATTRIBUTES | SYNCHRONIZE,
+                FILE_SHARE_READ,
+                FILE_OPEN,
+                FILE_OPEN_REPARSE_POINT | FILE_SYNCHRONOUS_IO_NONALERT | FILE_NON_DIRECTORY_FILE,
+            )?;
+            validate_handle(&current, false, "replacement target")?;
+            validate_expected_file(&current, expected_size, expected_sha256)?;
+            drop(current);
             rename_replacing_at(&temporary, &directory, &filename)
         })();
         if prepared.is_err() {
@@ -558,8 +569,8 @@ mod platform {
             );
         }
 
-        // FILE_RENAME_POSIX_SEMANTICS permits replacing the validated target while its handle
-        // remains open and continues to deny competing writers/deleters.
+        // FILE_RENAME_POSIX_SEMANTICS permits replacing the target while the original validated
+        // handle remains open. The caller revalidates the current path immediately beforehand.
         let status = unsafe {
             let mut io_status: IO_STATUS_BLOCK = zeroed();
             NtSetInformationFile(

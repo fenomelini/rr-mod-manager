@@ -7147,14 +7147,14 @@ fn available_space_at(path: &Path) -> Result<Option<u64>> {
     Ok(disks
         .list()
         .iter()
-        .filter(|disk| path.starts_with(disk.mount_point()))
-        .max_by_key(|disk| {
-            (
-                disk.mount_point().components().count(),
-                disk.available_space(),
-            )
+        .filter_map(|disk| {
+            fs::canonicalize(disk.mount_point())
+                .ok()
+                .map(|mount| (disk, mount))
         })
-        .map(|disk| disk.available_space()))
+        .filter(|(_, mount)| path.starts_with(mount))
+        .max_by_key(|(disk, mount)| (mount.components().count(), disk.available_space()))
+        .map(|(disk, _)| disk.available_space()))
 }
 
 fn remove_review_staging(path: &Path) -> Result<()> {
@@ -7757,10 +7757,11 @@ fn write_artifact_quarantine_journal(
         .open(&temporary_path)?;
     file.write_all(&serde_json::to_vec_pretty(&journal)?)?;
     file.sync_all()?;
+    drop(file);
     fs::rename(&temporary_path, &journal_path)?;
-    fs::File::open(quarantine)?.sync_all()?;
+    sync_directory_if_supported(quarantine)?;
     if let Some(parent) = quarantine.parent() {
-        fs::File::open(parent)?.sync_all()?;
+        sync_directory_if_supported(parent)?;
     }
     Ok(())
 }
@@ -8995,6 +8996,7 @@ fn write_existing_mod_record(directory: &Path, record: &ExistingModRecord) -> Re
         .open(&temporary)?;
     file.write_all(&bytes)?;
     file.sync_all()?;
+    drop(file);
     fs::rename(&temporary, &path)?;
     Ok(())
 }
@@ -9700,8 +9702,9 @@ fn capture_existing_group_snapshot(
         .open(&journal)?;
     file.write_all(&serde_json::to_vec_pretty(&snapshot)?)?;
     file.sync_all()?;
-    fs::File::open(&root)?.sync_all()?;
-    fs::File::open(&operations_root)?.sync_all()?;
+    drop(file);
+    sync_directory_if_supported(&root)?;
+    sync_directory_if_supported(&operations_root)?;
     snapshot.root = temporary.keep();
     Ok(snapshot)
 }
@@ -9855,7 +9858,7 @@ fn copy_regular_directory(source: &Path, destination: &Path) -> Result<()> {
             bail!("hybrid snapshot contains a filesystem link or special entry");
         }
     }
-    fs::File::open(destination)?.sync_all()?;
+    sync_directory_if_supported(destination)?;
     Ok(())
 }
 
@@ -11206,6 +11209,7 @@ mod tests {
         app
     }
 
+    #[cfg(windows)]
     fn materialize_synthetic_exact_installation(app: &mut DesktopApplication) -> PathBuf {
         let stored = selected_installation(&app.store().unwrap())
             .unwrap()
@@ -12193,21 +12197,36 @@ mod tests {
         app.ensure_default_profile().unwrap();
 
         let snapshot = app.select_game_folder(&game).unwrap();
+        let canonical_game = fs::canonicalize(&game).unwrap();
+        let canonical_steamapps = canonical_game
+            .parent()
+            .unwrap()
+            .parent()
+            .unwrap()
+            .to_path_buf();
 
-        assert_eq!(snapshot.game.root_path, Some(game.display().to_string()));
+        assert_eq!(
+            snapshot.game.root_path,
+            Some(canonical_game.display().to_string())
+        );
         assert_eq!(
             app.store()
                 .unwrap()
                 .setting(SELECTED_GAME_ROOT_KEY)
                 .unwrap(),
-            Some(serde_json::Value::String(game.display().to_string()))
+            Some(serde_json::Value::String(
+                canonical_game.display().to_string()
+            ))
         );
         assert_eq!(
             app.store()
                 .unwrap()
                 .installation_binding(INSTALLATION_ID)
                 .unwrap(),
-            Some((steamapps.join("appmanifest_3552140.acf"), game))
+            Some((
+                canonical_steamapps.join("appmanifest_3552140.acf"),
+                canonical_game
+            ))
         );
     }
 

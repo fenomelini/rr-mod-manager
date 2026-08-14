@@ -417,15 +417,27 @@ pub(crate) fn write_bug_report_zip(
         if output.metadata()?.len() > MAX_PACKAGE_BYTES {
             bail!("bug report ZIP exceeds the 5 MiB package limit");
         }
+        drop(output);
         validate_destination(&destination)?;
         fs::rename(&temporary, &destination)?;
-        fs::File::open(&parent)?.sync_all()?;
+        sync_directory_if_supported(&parent)?;
         Ok(destination.display().to_string())
     })();
     if result.is_err() {
         let _ = fs::remove_file(temporary);
     }
     result
+}
+
+#[cfg(unix)]
+fn sync_directory_if_supported(path: &Path) -> Result<()> {
+    fs::File::open(path)?.sync_all()?;
+    Ok(())
+}
+
+#[cfg(not(unix))]
+fn sync_directory_if_supported(_path: &Path) -> Result<()> {
+    Ok(())
 }
 
 fn private_new_file(path: &Path) -> Result<fs::File> {
