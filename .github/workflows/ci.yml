@@ -27,6 +27,11 @@ jobs:
           libwebkit2gtk-4.1-dev libxdo-dev
       - name: Install pinned Rust toolchain
         run: rustup toolchain install 1.97.1 --profile minimal --component clippy,rustfmt
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+      - name: Prepare desktop parser sidecars
+        run: node tools/prepare-desktop-sidecars.mjs debug
       - name: Check formatting
         run: cargo fmt --all -- --check
       - name: Run tests
