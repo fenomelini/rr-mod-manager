@@ -17,6 +17,7 @@
     "desktop:build:windows:unsigned": "pwsh -File tools/build-windows-unsigned-release.ps1",
     "desktop:build:windows:cross": "./packaging/windows/build-windows.sh",
     "desktop:build:windows:smoke": "node tools/prepare-desktop-sidecars.mjs debug x86_64-pc-windows-msvc && pnpm --filter @rrmm/desktop tauri build --debug --bundles nsis --no-sign",
+    "desktop:test:windows:launch": "node tools/prepare-desktop-sidecars.mjs debug x86_64-pc-windows-msvc && cargo test --locked --package rrmm-steam --package rrmm-desktop",
     "desktop:test:windows:ue4ss": "pwsh -File tools/test-windows-ue4ss-flow.ps1",
     "desktop:test:windows:archive": "pwsh -File tools/test-windows-generated-mod-flow.ps1",
     "desktop:test:windows:faster-returns": "pwsh -File tools/test-windows-archive-flow.ps1",

@@ -70,9 +70,10 @@ assert(
   "Windows release must use the explicit unsigned build contract",
 );
 assert(
-  releaseWorkflow.includes("pnpm desktop:test:windows:ue4ss") &&
+  releaseWorkflow.includes("pnpm desktop:test:windows:launch") &&
+    releaseWorkflow.includes("pnpm desktop:test:windows:ue4ss") &&
     releaseWorkflow.includes("pnpm desktop:test:windows:archive"),
-  "Windows release must run both real-worker end-to-end flows",
+  "Windows release must run launch tests and both real-worker end-to-end flows",
 );
 assert(
   releaseWorkflow.includes("actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6"),

@@ -66,6 +66,8 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm desktop:packaging:check
+      - name: Run Windows launch and stack regression tests
+        run: pnpm desktop:test:windows:launch
       - name: Run the complete sandboxed UE4SS flow
         run: pnpm desktop:test:windows:ue4ss
       - name: Run generated mod import and deployment through both real workers
