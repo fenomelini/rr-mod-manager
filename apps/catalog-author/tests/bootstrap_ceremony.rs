@@ -1,13 +1,17 @@
+#[cfg(unix)]
 use rrmm_recipes::CatalogTrustFloor;
+#[cfg(unix)]
 use serde_json::Value;
 use std::fs;
 #[cfg(unix)]
 use std::os::unix::fs::PermissionsExt;
 use std::path::Path;
 use std::process::{Command, Output};
+#[cfg(unix)]
 use std::time::{SystemTime, UNIX_EPOCH};
 use tempfile::TempDir;
 
+#[cfg(unix)]
 #[test]
 fn bootstraps_signs_verifies_and_rejects_tampering() {
     let temporary = TempDir::new().unwrap();
@@ -493,6 +497,32 @@ fn bootstraps_signs_verifies_and_rejects_tampering() {
     assert!(!rejected.status.success());
 }
 
+#[cfg(windows)]
+#[test]
+fn rejects_private_key_operations_on_windows() {
+    let temporary = TempDir::new().unwrap();
+    let private = temporary.path().join("root.rrmm-private.json");
+    let public = temporary.path().join("root.public.json");
+
+    let output = command(&[
+        "key-generate",
+        "--role",
+        "root",
+        "--private-key",
+        path(&private),
+        "--public-key",
+        path(&public),
+    ]);
+
+    assert!(!output.status.success());
+    assert!(
+        String::from_utf8_lossy(&output.stderr)
+            .contains("secure private-key handling is currently supported only on Unix")
+    );
+    assert!(!private.exists());
+    assert!(!public.exists());
+}
+
 #[test]
 fn refuses_private_keys_inside_a_source_checkout() {
     let inside = TempDir::new_in(env!("CARGO_MANIFEST_DIR")).unwrap();
@@ -516,6 +546,7 @@ fn refuses_private_keys_inside_a_source_checkout() {
     assert!(!public.exists());
 }
 
+#[cfg(unix)]
 fn success(arguments: &[&str]) -> Output {
     let output = command(arguments);
     assert!(
