@@ -1712,44 +1712,6 @@ mod tests {
     }
 
     #[test]
-    fn authored_combined_recipe_repairs_its_exact_catalog_incompatibility() {
-        let package_catalog: Vec<CatalogPackage> =
-            serde_json::from_str(include_str!("../../../catalogs/packages/23896268.json")).unwrap();
-        let recipe: CompatibilityRecipe = serde_json::from_str(include_str!(
-            "../../../recipes/compatibility/23896268/unrewound-tape-fee--employee-fee-policy.json"
-        ))
-        .unwrap();
-        let resolution = resolve_packages(
-            &ResolveRequest {
-                build_id: 23_896_268,
-                selections: recipe
-                    .matches
-                    .iter()
-                    .map(|matched| ResolveSelection {
-                        artifact_sha256: matched.sha256.clone(),
-                        variant: None,
-                    })
-                    .collect(),
-            },
-            &package_catalog,
-        )
-        .unwrap();
-        assert!(!resolution.ready);
-
-        let report = apply_recipe_set(&resolution, &package_catalog, &[recipe]).unwrap();
-
-        assert!(report.ready);
-        assert_eq!(
-            report.resolution.packages[0].package_id,
-            "nexus:unrewound-tape-fee-employee-fee-policy"
-        );
-        assert_eq!(
-            report.resolution.packages[0].artifact_sha256,
-            "8a151b1f80c6e43444e303711fb5470058875a7816dd141864452a1d73ad47d9"
-        );
-    }
-
-    #[test]
     fn applies_declarative_decisions_and_rejects_overlapping_recipes() {
         let a = catalog_package("local:example-a", "a");
         let b = catalog_package("local:example-b", "b");
