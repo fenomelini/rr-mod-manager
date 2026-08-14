@@ -8997,8 +8997,45 @@ fn write_existing_mod_record(directory: &Path, record: &ExistingModRecord) -> Re
     file.write_all(&bytes)?;
     file.sync_all()?;
     drop(file);
-    fs::rename(&temporary, &path)?;
+    replace_file_atomically(&temporary, &path)?;
     Ok(())
+}
+
+#[cfg(windows)]
+fn replace_file_atomically(temporary: &Path, destination: &Path) -> std::io::Result<()> {
+    use std::os::windows::ffi::OsStrExt;
+    use windows_sys::Win32::Storage::FileSystem::{
+        MOVEFILE_REPLACE_EXISTING, MOVEFILE_WRITE_THROUGH, MoveFileExW,
+    };
+
+    let temporary: Vec<u16> = temporary
+        .as_os_str()
+        .encode_wide()
+        .chain(std::iter::once(0))
+        .collect();
+    let destination: Vec<u16> = destination
+        .as_os_str()
+        .encode_wide()
+        .chain(std::iter::once(0))
+        .collect();
+    // SAFETY: both UTF-16 buffers are NUL-terminated and remain live for the call.
+    let moved = unsafe {
+        MoveFileExW(
+            temporary.as_ptr(),
+            destination.as_ptr(),
+            MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH,
+        )
+    };
+    if moved == 0 {
+        Err(std::io::Error::last_os_error())
+    } else {
+        Ok(())
+    }
+}
+
+#[cfg(not(windows))]
+fn replace_file_atomically(temporary: &Path, destination: &Path) -> std::io::Result<()> {
+    fs::rename(temporary, destination)
 }
 
 fn copy_existing_mod_file(source: &Path, destination: &Path, expected_sha256: &str) -> Result<()> {
@@ -13506,6 +13543,20 @@ mod tests {
     fn windows_does_not_open_directories_to_finalize_downloads() {
         let temporary = TempDir::new().unwrap();
         sync_directory_if_supported(temporary.path()).unwrap();
+    }
+
+    #[test]
+    fn existing_mod_records_replace_an_existing_file_atomically() {
+        let temporary = TempDir::new().unwrap();
+        let destination = temporary.path().join("record.json");
+        let replacement = temporary.path().join(".record.tmp");
+        fs::write(&destination, b"old").unwrap();
+        fs::write(&replacement, b"new").unwrap();
+
+        replace_file_atomically(&replacement, &destination).unwrap();
+
+        assert_eq!(fs::read(destination).unwrap(), b"new");
+        assert!(!replacement.exists());
     }
 
     #[test]
