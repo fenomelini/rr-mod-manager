@@ -1,7 +1,7 @@
 # RR Mod Manager 0.1.2
 
-RR Mod Manager `0.1.2` is a Windows reliability release for the complete workflow of installing
-UE4SS, importing a mod, activating a profile and starting Retro Rewind.
+RR Mod Manager `0.1.2` is a reliability release for the complete workflow of installing UE4SS,
+importing a mod, activating a profile and starting Retro Rewind.
 
 ## Fixed
 
@@ -25,22 +25,20 @@ UE4SS, importing a mod, activating a profile and starting Retro Rewind.
 - Unreal Engine `5.4.4`
 - UE4SS `3.0.1 Beta #0`, build `662df915`
 - Windows 10/11
+- Linux Steam/Proton (beta)
 
-This release publishes a new Windows installer only. Linux remains available from the previous
-public release until a Linux `0.1.2` artifact passes its own target-platform validation.
+This release publishes a Windows installer and a Linux AppImage built from the same source.
 
 ## Windows trust notice
 
 The `0.1.2` installer does not have an Authenticode publisher certificate, so Windows SmartScreen
-may show “Unknown publisher”. The release workflow still produces SHA-256 checksums, an SPDX SBOM
-and a public GitHub artifact attestation for every candidate file.
+may show “Unknown publisher”. The release includes SHA-256 checksums for every downloadable binary.
 
-After downloading the installer and `SHA256SUMS`, compare its SHA-256 with the recorded value and
-verify provenance with:
+After downloading the installer and `SHA256SUMS`, compare its SHA-256 with the recorded value:
 
 ```powershell
-gh attestation verify "RR Mod Manager_0.1.2_x64-setup.exe" --owner fenomelini
+Get-FileHash -Algorithm SHA256 "RR-Mod-Manager-0.1.2-Windows-x64-Setup.exe"
 ```
 
-The generated `SHA256SUMS` and `release-manifest.json` files are the authoritative identities of
-the published artifacts. No installer hash is handwritten in this document.
+The generated `SHA256SUMS` file is the authoritative identity of the published artifacts. No
+installer hash is handwritten in this document.

@@ -2,44 +2,39 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-image="rrmm-windows:bookworm"
-runtime="${RRMM_CONTAINER_RUNTIME:-podman}"
 target="x86_64-pc-windows-msvc"
-installer="RR Mod Manager_0.1.2_x64-setup.exe"
+version="$(node -p "require('$root/package.json').version")"
+source_installer="$root/target/$target/release/bundle/nsis/RR Mod Manager_${version}_x64-setup.exe"
+output="$root/dist/RR-Mod-Manager-${version}-Windows-x64-Setup.exe"
 
-command -v "$runtime" >/dev/null || {
-    printf 'container runtime not found: %s\n' "$runtime" >&2
-    exit 1
-}
+for command in cargo cargo-xwin node pnpm makensis; do
+    command -v "$command" >/dev/null || { printf 'required command not found: %s\n' "$command" >&2; exit 1; }
+done
 
-"$runtime" build --file "$root/packaging/windows/Containerfile" --tag "$image" "$root"
-"$runtime" run --rm \
-    --security-opt label=disable \
-    --volume "$root:/workspace" \
-    --workdir /workspace \
-    "$image" \
-    bash -lc '
-        set -euo pipefail
-        CI=1 pnpm install --frozen-lockfile
-        cargo xwin build --locked --release --target x86_64-pc-windows-msvc \
-            --package rrmm-archive-worker \
-            --package rrmm-pak-worker
-        install -Dm755 \
-            target/x86_64-pc-windows-msvc/release/rrmm-archive-worker.exe \
-            apps/desktop/src-tauri/binaries/rrmm-archive-worker-x86_64-pc-windows-msvc.exe
-        install -Dm755 \
-            target/x86_64-pc-windows-msvc/release/rrmm-pak-worker.exe \
-            apps/desktop/src-tauri/binaries/rrmm-pak-worker-x86_64-pc-windows-msvc.exe
-        pnpm desktop:packaging:check
-        pnpm --filter @rrmm/desktop tauri build \
-            --runner cargo-xwin \
-            --target x86_64-pc-windows-msvc \
-            --bundles nsis \
-            --no-sign
-        install -Dm644 \
-            "target/x86_64-pc-windows-msvc/release/bundle/nsis/RR Mod Manager_0.1.2_x64-setup.exe" \
-            "dist/RR Mod Manager_0.1.2_x64-setup.exe"
-    '
+cd "$root"
+CI=1 pnpm install --frozen-lockfile
+cargo xwin build --locked --release --target "$target" \
+    --package rrmm-archive-worker \
+    --package rrmm-pak-worker
+install -Dm755 "target/$target/release/rrmm-archive-worker.exe" \
+    "apps/desktop/src-tauri/binaries/rrmm-archive-worker-$target.exe"
+install -Dm755 "target/$target/release/rrmm-pak-worker.exe" \
+    "apps/desktop/src-tauri/binaries/rrmm-pak-worker-$target.exe"
+pnpm desktop:packaging:check
+pnpm --filter @rrmm/desktop tauri build \
+    --runner cargo-xwin \
+    --target "$target" \
+    --bundles nsis \
+    --no-sign
 
-test -f "$root/dist/$installer"
-printf '%s\n' "$root/dist/$installer"
+test -f "$source_installer"
+install -Dm644 "$source_installer" "$output"
+if command -v powershell.exe >/dev/null && command -v wslpath >/dev/null; then
+    windows_output="$(wslpath -w "$output")"
+    signature_status="$(powershell.exe -NoProfile -Command "(Get-AuthenticodeSignature -LiteralPath '$windows_output').Status" | tr -d '\r')"
+    [[ "$signature_status" == "NotSigned" ]] || {
+        printf 'unexpected Authenticode status: %s\n' "$signature_status" >&2
+        exit 1
+    }
+fi
+sha256sum "$output"

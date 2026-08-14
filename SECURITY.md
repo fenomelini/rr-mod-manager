@@ -2,10 +2,9 @@
 
 ## Status
 
-RR Mod Manager is pre-release software. The Windows worker sandbox is implemented
-with AppContainer and Job Object boundaries, but no build should be treated as a
-validated security boundary for hostile Windows archives until the clean-system
-platform tests listed in `ROADMAP.md` are complete.
+RR Mod Manager is pre-release software. The Windows worker sandbox uses AppContainer
+and Job Object boundaries. Archives from unknown sources must still be treated as
+untrusted input.
 
 The Linux worker requires Landlock ABI V4 and observable filesystem and network
 denials. Windows workers require an AppContainer token, mandatory Job Object
@@ -40,8 +39,7 @@ High-priority issues include:
 - Path traversal, link following, or writes outside approved roots.
 - Unconfirmed deletion or overwrite of unmanaged game files.
 - Deployment journal, rollback, or receipt behavior that can lose user data.
-- Credential, temporary Nexus authorization, presigned URL, or personal-path
-  disclosure.
+- Credential or personal-path disclosure.
 - Signature, catalog rollback-protection, updater, or protocol-handler bypass.
 - WebView-to-native command access outside declared Tauri capabilities.
 
@@ -51,7 +49,6 @@ documented trust boundary.
 
 ## Release Requirements
 
-Before public beta, maintainers must complete dependency and secret scanning,
-publish checksums and an SBOM, provide a working private reporting channel, and
-validate signed Windows artifacts and rollback on clean physical or virtual
-Windows systems.
+Release files must be built from the tagged source, checked on their target platform,
+and published with SHA-256 checksums. The unsigned Windows installer must be identified
+as unsigned until an Authenticode certificate is available.

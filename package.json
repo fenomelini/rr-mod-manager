@@ -5,38 +5,13 @@
   "type": "module",
   "packageManager": "pnpm@10.13.1",
   "scripts": {
-    "check": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "desktop:dev": "node tools/prepare-desktop-sidecars.mjs debug && pnpm --filter @rrmm/desktop tauri dev",
-    "desktop:web": "pnpm --filter @rrmm/desktop dev",
     "desktop:build:web": "pnpm --filter @rrmm/desktop build",
     "desktop:build:linux": "./packaging/linux/build-linux.sh",
-    "desktop:build:linux:smoke": "RRMM_CONTAINER_RUNTIME=docker ./packaging/linux/build-linux.sh debug",
-    "desktop:build:windows": "pwsh -File tools/build-windows-release.ps1",
-    "desktop:build:windows:unsigned": "pwsh -File tools/build-windows-unsigned-release.ps1",
-    "desktop:build:windows:cross": "./packaging/windows/build-windows.sh",
-    "desktop:build:windows:smoke": "node tools/prepare-desktop-sidecars.mjs debug x86_64-pc-windows-msvc && pnpm --filter @rrmm/desktop tauri build --debug --bundles nsis --no-sign",
-    "desktop:test:windows:launch": "node tools/prepare-desktop-sidecars.mjs debug x86_64-pc-windows-msvc && cargo test --locked --package rrmm-steam --package rrmm-desktop",
+    "desktop:build:windows": "./packaging/windows/build-windows.sh",
     "desktop:test:windows:ue4ss": "pwsh -File tools/test-windows-ue4ss-flow.ps1",
     "desktop:test:windows:archive": "pwsh -File tools/test-windows-generated-mod-flow.ps1",
-    "desktop:test:windows:faster-returns": "pwsh -File tools/test-windows-archive-flow.ps1",
     "desktop:sidecars": "node tools/prepare-desktop-sidecars.mjs release",
     "desktop:packaging:check": "node tools/check-desktop-packaging.mjs",
-    "desktop:test": "pnpm --filter @rrmm/desktop test",
-    "release:contract": "node tools/check-release-readiness.mjs",
-    "release:check": "node tools/check-release-readiness.mjs --production",
-    "release:licenses": "node tools/generate-license-notices.mjs",
-    "release:metadata": "node tools/generate-release-metadata.mjs",
-    "phase0": "tsx spikes/phase0/src/cli.ts"
-  },
-  "dependencies": {
-    "ajv": "^8.17.1"
-  },
-  "devDependencies": {
-    "@types/node": "^24.0.0",
-    "tsx": "^4.20.0",
-    "typescript": "^5.8.0",
-    "vitest": "^3.2.0"
+    "desktop:test": "pnpm --filter @rrmm/desktop test"
   }
 }

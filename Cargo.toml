@@ -1,18 +1,14 @@
 [workspace]
 members = [
   "apps/archive-worker",
-  "apps/catalog-author",
-  "apps/cli",
   "apps/pak-worker",
   "apps/desktop/src-tauri",
   "crates/rrmm-archive",
   "crates/rrmm-application",
   "crates/rrmm-artifacts",
-  "crates/rrmm-conflicts",
   "crates/rrmm-domain",
   "crates/rrmm-deploy",
   "crates/rrmm-manifest",
-  "crates/rrmm-nexus",
   "crates/rrmm-pak",
   "crates/rrmm-recipes",
   "crates/rrmm-steam",
@@ -33,7 +29,6 @@ license = "MIT"
 anyhow = "1.0"
 base64 = "0.22"
 chrono = { version = "0.4", default-features = false, features = ["clock"] }
-clap = { version = "4.5", features = ["derive"] }
 dirs = "6.0"
 ed25519-dalek = "2.2"
 hex = "0.4"
@@ -53,7 +48,6 @@ unicode-casefold = "0.2"
 unicode-normalization = "0.1"
 walkdir = "2.5"
 zip = { version = "8.6", default-features = false, features = ["deflate-flate2-zlib-rs"] }
-zeroize = "1.8"
 
 [workspace.dependencies.winreg]
 version = "0.55"

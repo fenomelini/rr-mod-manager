@@ -4,9 +4,7 @@
   "version": "0.1.2",
   "identifier": "io.rrmodmanager.desktop",
   "build": {
-    "beforeDevCommand": "pnpm dev",
     "beforeBuildCommand": "pnpm build",
-    "devUrl": "http://localhost:1420",
     "frontendDist": "../dist"
   },
   "app": {

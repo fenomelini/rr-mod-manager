@@ -6,9 +6,8 @@ RR Mod Manager is local-first and does not use behavioral telemetry. It does not
 automatically send installed mod lists, game paths, profile names, archive
 hashes, diagnostics, logs, or database content.
 
-This policy describes the current pre-release implementation. Nexus
-authentication, downloads, and application updates are not enabled yet and will
-require a policy review before public release.
+This policy describes the current pre-release implementation. Authentication,
+automatic mod downloads and application updates are not enabled.
 
 ## Local Data
 
@@ -31,14 +30,11 @@ Current network access is user initiated:
 
 - Downloading the single pinned UE4SS build from its fixed HTTPS host after
   validating host, size, and SHA-256.
-- The isolated `rrmm-nexus` development client can request Nexus's anonymous
-  Retro Rewind trending feed from the fixed v3 API origin, but it is not wired to
-  the desktop UI.
 
 Offline mode is persisted locally and blocks network cache misses before a
 request is made. Verified cached artifacts remain usable offline.
 
-Future Nexus authentication must store credentials only in the operating-system
+Future authentication must store credentials only in the operating-system
 credential store. Credentials, temporary `nxm` authorization, and presigned URLs
 must never enter SQLite, logs, analytics, problem reports, or unrelated hosts.
 
@@ -54,7 +50,7 @@ destination. RR Mod Manager does not upload or transmit these reports.
 
 ## External Services
 
-Opening a reviewed Nexus page transfers control to the user's browser and is
+Opening a reviewed mod page transfers control to the user's browser and is
 subject to Nexus Mods' privacy terms. RR Mod Manager does not scrape Nexus pages,
 mirror its catalog, or send Nexus API keys to CDN or presigned storage hosts.
 
