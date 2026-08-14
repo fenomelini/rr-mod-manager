@@ -96,7 +96,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm release:check
       - name: Run Windows launch and stack regression tests
-        run: cargo test --locked --package rrmm-steam --package rrmm-desktop
+        run: pnpm desktop:test:windows:launch
       - name: Run the complete sandboxed UE4SS flow
         run: pnpm desktop:test:windows:ue4ss
       - name: Run generated mod import and deployment through both real workers
