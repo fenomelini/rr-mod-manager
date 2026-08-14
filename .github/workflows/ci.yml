@@ -2,7 +2,12 @@ name: CI
 
 on:
   push:
+    branches: [main]
   pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   rust:
@@ -144,7 +149,7 @@ jobs:
       - name: Install nightly Rust
         run: rustup toolchain install nightly --profile minimal
       - name: Install pinned cargo-fuzz
-        run: cargo +nightly install cargo-fuzz --version 0.13.1 --locked
+        run: cargo +nightly install cargo-fuzz --version 0.13.2 --locked
       - name: Fuzz archive paths
         run: cargo +nightly fuzz run archive_path -- -max_total_time=20
       - name: Fuzz archive preflight
