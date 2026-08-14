@@ -186,6 +186,8 @@ pub struct DesktopApplication {
     paths: DesktopPaths,
     archive_worker: PathBuf,
     pak_worker: PathBuf,
+    #[cfg(test)]
+    deployment_build_recipe_override: Option<BuildRecipe>,
     pending_archives: Mutex<BTreeMap<String, PendingArchive>>,
     pending_import_reviews: Mutex<BTreeMap<String, PendingImportReview>>,
     previews: Mutex<BTreeMap<String, PendingPreview>>,
@@ -415,6 +417,8 @@ impl DesktopApplication {
             paths,
             archive_worker,
             pak_worker,
+            #[cfg(test)]
+            deployment_build_recipe_override: None,
             pending_archives: Mutex::new(BTreeMap::new()),
             pending_import_reviews: Mutex::new(BTreeMap::new()),
             previews: Mutex::new(BTreeMap::new()),
@@ -3316,7 +3320,7 @@ impl DesktopApplication {
         persist_validation_state: bool,
     ) -> Result<ComputedDeployment> {
         let store = self.store()?;
-        let recipe = build_recipe()?;
+        let recipe = self.deployment_build_recipe()?;
         let catalog = effective_package_catalog(&store, &self.paths.artifact_store)?;
         let installation = selected_installation(&store)?
             .context("no inventoried Retro Rewind Steam installation is available")?;
@@ -3642,6 +3646,14 @@ impl DesktopApplication {
             disableable_package_ids,
             watched_files,
         })
+    }
+
+    fn deployment_build_recipe(&self) -> Result<BuildRecipe> {
+        #[cfg(test)]
+        if let Some(recipe) = &self.deployment_build_recipe_override {
+            return Ok(recipe.clone());
+        }
+        build_recipe()
     }
 
     fn store(&self) -> Result<Store> {
@@ -11194,6 +11206,61 @@ mod tests {
         app
     }
 
+    fn materialize_synthetic_exact_installation(app: &mut DesktopApplication) -> PathBuf {
+        let stored = selected_installation(&app.store().unwrap())
+            .unwrap()
+            .unwrap();
+        let game_root = stored.installation.game_root.clone();
+        for (relative, bytes) in [
+            (
+                "RetroRewind.exe",
+                b"synthetic bootstrap executable".as_slice(),
+            ),
+            (
+                "RetroRewind/Binaries/Win64/RetroRewind-Win64-Shipping.exe",
+                b"synthetic shipping executable".as_slice(),
+            ),
+            (
+                "RetroRewind/Content/Paks/RetroRewind-Windows.pak",
+                b"synthetic vanilla pak".as_slice(),
+            ),
+        ] {
+            let path = game_root.join(relative);
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
+            fs::write(path, bytes).unwrap();
+        }
+
+        let mut recipe = build_recipe().unwrap();
+        recipe.critical_files = [
+            "RetroRewind.exe",
+            "RetroRewind/Binaries/Win64/RetroRewind-Win64-Shipping.exe",
+        ]
+        .into_iter()
+        .map(|relative| {
+            let path = game_root.join(relative);
+            rrmm_domain::CriticalFileRecipe {
+                relative_path: relative.into(),
+                size: fs::metadata(&path).unwrap().len(),
+                sha256: rrmm_archive::sha256_path(&path).unwrap(),
+            }
+        })
+        .collect();
+        let exact = inspect_manifest(
+            &stored.installation.manifest_path,
+            &stored.installation.steam_root,
+            &stored.installation.library_root,
+            stored.installation.source,
+            Some(&recipe),
+            true,
+        )
+        .unwrap();
+        assert_eq!(exact.layout_status, LayoutStatus::Complete);
+        assert_eq!(exact.build_status, BuildStatus::SupportedExact);
+        app.store().unwrap().upsert_installation(&exact).unwrap();
+        app.deployment_build_recipe_override = Some(recipe);
+        game_root
+    }
+
     fn write_test_zip(path: &Path, entries: &[(&str, &[u8])]) {
         let mut writer = zip::ZipWriter::new(fs::File::create(path).unwrap());
         for (name, bytes) in entries {
@@ -13243,7 +13310,8 @@ mod tests {
         let pak_bytes = test_pak_bytes(b"real Windows worker integration");
         write_test_zip(&archive, &[("Generated_P.pak", &pak_bytes)]);
         let expected_sha256 = rrmm_archive::sha256_path(&archive).unwrap();
-        let app = import_test_app_with_workers(&temporary, archive_worker, pak_worker);
+        let mut app = import_test_app_with_workers(&temporary, archive_worker, pak_worker);
+        let game_root = materialize_synthetic_exact_installation(&mut app);
 
         let preflight = app.preflight_archive(&archive).unwrap();
         assert!(preflight.accepted, "{:?}", preflight.blocked_reasons);
@@ -13266,11 +13334,6 @@ mod tests {
         assert!(!preview.blocked, "{:?}", preview.blockers);
         app.apply_activation(&preview.preview_id).unwrap();
 
-        let game_root = selected_installation(&app.store().unwrap())
-            .unwrap()
-            .unwrap()
-            .installation
-            .game_root;
         assert_eq!(
             fs::read(game_root.join("RetroRewind/Content/Paks/Generated_P.pak")).unwrap(),
             pak_bytes

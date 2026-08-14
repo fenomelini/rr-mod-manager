@@ -33,6 +33,11 @@ jobs:
         run: |
           [[ "$RELEASE_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
           test "$RELEASE_VERSION" = "$(node -p "require('./package.json').version")"
+      - name: Install Linux desktop build dependencies
+        run: >-
+          sudo apt-get update && sudo apt-get install -y
+          libayatana-appindicator3-dev librsvg2-dev libssl-dev
+          libwebkit2gtk-4.1-dev libxdo-dev
       - name: Install pinned Rust toolchain
         run: rustup toolchain install 1.97.1 --profile minimal --component clippy,rustfmt
       - uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa # v4
