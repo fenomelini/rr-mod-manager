@@ -12,7 +12,9 @@ use rrmm_recipes::{
 };
 use serde::{Deserialize, Serialize, de::DeserializeOwned};
 use sha2::{Digest, Sha256};
-use std::fs::{self, File, OpenOptions};
+#[cfg(unix)]
+use std::fs::OpenOptions;
+use std::fs::{self, File};
 use std::io::{Read, Write};
 #[cfg(unix)]
 use std::os::unix::fs::{MetadataExt, OpenOptionsExt, PermissionsExt};
@@ -831,9 +833,9 @@ fn open_private_key(_path: &Path) -> Result<File> {
     bail!("secure private-key handling is currently supported only on Unix")
 }
 
-fn sync_parent(parent: &Path) -> Result<()> {
+fn sync_parent(_parent: &Path) -> Result<()> {
     #[cfg(unix)]
-    File::open(parent)?.sync_all()?;
+    File::open(_parent)?.sync_all()?;
     Ok(())
 }
 

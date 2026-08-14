@@ -9042,8 +9042,20 @@ fn copy_existing_mod_file(source: &Path, destination: &Path, expected_sha256: &s
     if destination.exists() {
         bail!("installed-mod storage destination already exists");
     }
-    fs::copy(source, destination)?;
-    fs::File::open(destination)?.sync_all()?;
+    let copied = (|| {
+        let mut input = fs::File::open(source)?;
+        let mut output = fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(destination)?;
+        std::io::copy(&mut input, &mut output)?;
+        output.sync_all()?;
+        Ok::<(), anyhow::Error>(())
+    })();
+    if let Err(error) = copied {
+        let _ = fs::remove_file(destination);
+        return Err(error);
+    }
     let actual = rrmm_archive::sha256_path(destination)?;
     if actual != expected_sha256 {
         let _ = fs::remove_file(destination);
@@ -9698,8 +9710,7 @@ fn capture_existing_group_snapshot(
             }
             let backup_name = format!("file-{index}.bin");
             let backup = root.join(&backup_name);
-            fs::copy(&source, &backup)?;
-            fs::File::open(&backup)?.sync_all()?;
+            copy_existing_mod_file(&source, &backup, &expected_sha256)?;
             Some(backup_name)
         } else {
             None
@@ -9774,8 +9785,11 @@ fn rollback_existing_group_snapshot(
                 ".rrmm-group-restore-{}.tmp",
                 Utc::now().timestamp_nanos_opt().unwrap_or_default()
             ));
-            fs::copy(snapshot.root.join(backup_name), &temporary)?;
-            fs::File::open(&temporary)?.sync_all()?;
+            copy_existing_mod_file(
+                &snapshot.root.join(backup_name),
+                &temporary,
+                &file.expected_sha256,
+            )?;
             fs::rename(temporary, &destination)?;
         } else if destination.exists() {
             let metadata = fs::symlink_metadata(&destination)?;
@@ -9889,8 +9903,8 @@ fn copy_regular_directory(source: &Path, destination: &Path) -> Result<()> {
         if file_type.is_dir() {
             copy_regular_directory(&entry.path(), &target)?;
         } else if file_type.is_file() {
-            fs::copy(entry.path(), &target)?;
-            fs::File::open(target)?.sync_all()?;
+            let expected_sha256 = rrmm_archive::sha256_path(&entry.path())?;
+            copy_existing_mod_file(&entry.path(), &target, &expected_sha256)?;
         } else {
             bail!("hybrid snapshot contains a filesystem link or special entry");
         }

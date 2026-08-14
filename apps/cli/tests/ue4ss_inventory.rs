@@ -1,9 +1,13 @@
 use rrmm_ue4ss::{
     DeclaredModuleState, LuaAdvisoryArgument, LuaAdvisoryReport, LuaPropertyWriteKind,
-    ModsTxtAnalysisStatus, ModsTxtSemantics, Ue4ssActivationReport, Ue4ssDeclaredActivation,
-    Ue4ssInstallationStatus, Ue4ssInventoryReport, Ue4ssLoaderIdentityReport,
-    Ue4ssLoaderIdentityStatus, Ue4ssLoaderLayout, Ue4ssLoaderStatus, Ue4ssLuaApi, Ue4ssModuleKind,
-    Ue4ssRuntimeGitSha, Ue4ssRuntimeLogReport, Ue4ssRuntimeModEventKind,
+    ModsTxtSemantics, Ue4ssInstallationStatus, Ue4ssInventoryReport, Ue4ssLoaderStatus,
+    Ue4ssLuaApi, Ue4ssModuleKind,
+};
+#[cfg(unix)]
+use rrmm_ue4ss::{
+    ModsTxtAnalysisStatus, Ue4ssActivationReport, Ue4ssDeclaredActivation,
+    Ue4ssLoaderIdentityReport, Ue4ssLoaderIdentityStatus, Ue4ssLoaderLayout, Ue4ssRuntimeGitSha,
+    Ue4ssRuntimeLogReport, Ue4ssRuntimeModEventKind,
 };
 use std::fs;
 use std::process::Command;
