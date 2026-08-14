@@ -1,0 +1,20 @@
+[package]
+name = "rrmm-desktop"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+build = "build.rs"
+
+[dependencies]
+anyhow.workspace = true
+rrmm-application = { path = "../../../crates/rrmm-application" }
+rrmm-recipes = { path = "../../../crates/rrmm-recipes" }
+serde.workspace = true
+serde_json.workspace = true
+tauri = { version = "2.11", features = [] }
+tauri-plugin-dialog = "2.7"
+tauri-plugin-opener = "2.5"
+
+[build-dependencies]
+tauri-build = { version = "2.6", features = [] }

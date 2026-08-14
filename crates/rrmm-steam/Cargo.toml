@@ -1,0 +1,22 @@
+[package]
+name = "rrmm-steam"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+dirs.workspace = true
+hex.workspace = true
+rrmm-domain = { path = "../rrmm-domain" }
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+sysinfo.workspace = true
+thiserror.workspace = true
+
+[target.'cfg(windows)'.dependencies]
+winreg.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

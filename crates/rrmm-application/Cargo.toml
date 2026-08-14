@@ -1,0 +1,38 @@
+[package]
+name = "rrmm-application"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+chrono.workspace = true
+dirs.workspace = true
+libc.workspace = true
+rrmm-archive = { path = "../rrmm-archive" }
+rrmm-artifacts = { path = "../rrmm-artifacts" }
+rrmm-domain = { path = "../rrmm-domain" }
+rrmm-deploy = { path = "../rrmm-deploy" }
+rrmm-manifest = { path = "../rrmm-manifest" }
+rrmm-pak = { path = "../rrmm-pak" }
+rrmm-recipes = { path = "../rrmm-recipes" }
+rrmm-steam = { path = "../rrmm-steam" }
+rrmm-store = { path = "../rrmm-store" }
+rrmm-ue4ss = { path = "../rrmm-ue4ss" }
+reqwest.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+sysinfo.workspace = true
+tempfile.workspace = true
+zip.workspace = true
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.61", features = ["Win32_Storage_FileSystem"] }
+
+[dev-dependencies]
+base64.workspace = true
+ed25519-dalek.workspace = true
+rand_core.workspace = true
+repak-trumank.workspace = true

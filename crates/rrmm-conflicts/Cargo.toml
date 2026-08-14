@@ -1,0 +1,12 @@
+[package]
+name = "rrmm-conflicts"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+rrmm-pak = { path = "../rrmm-pak" }
+rrmm-ue4ss = { path = "../rrmm-ue4ss" }
+serde.workspace = true
+thiserror.workspace = true

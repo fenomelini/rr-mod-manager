@@ -1,0 +1,20 @@
+[package]
+name = "rrmm-archive"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+serde.workspace = true
+sevenz-rust2.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
+unicode-casefold.workspace = true
+unicode-normalization.workspace = true
+walkdir.workspace = true
+zip.workspace = true
+
+[dev-dependencies]
+sevenz-rust2 = { workspace = true, features = ["compress"] }
+tempfile.workspace = true

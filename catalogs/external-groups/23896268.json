@@ -1,0 +1,110 @@
+[
+  {
+    "package_id": "nexus:faster-returns",
+    "name": "Faster Returns",
+    "version": "1.1.0",
+    "nexus_page_url": "https://www.nexusmods.com/retrorewindvideostoresimulator/mods/271",
+    "pak_install_name": "zzzzzzzz_FasterReturns_P.pak",
+    "pak_sha256": "a0a252f7d3efe89ae652c779336ae9bfef3c80b08e91cd27490f4c9867c4a156",
+    "ue4ss_install_name": "FasterReturns",
+    "ue4ss_files": [
+      {
+        "path": "Scripts/array_snapshot.lua",
+        "size_bytes": 679,
+        "sha256": "1d9909df13395df9da5118c7d22d5fbff53218a4800a75b5922c5a1c3cd6caa6"
+      },
+      {
+        "path": "Scripts/main.lua",
+        "size_bytes": 49680,
+        "sha256": "a9797592a9bab7e5248deef3701a028d0fc681b62b9bbc83ed227904a2d2a7d0"
+      },
+      {
+        "path": "enabled.txt",
+        "size_bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "package_id": "nexus:better-hand-inventory",
+    "name": "Better Hand Inventory",
+    "version": "observed-2026-07-30",
+    "nexus_page_url": "https://www.nexusmods.com/retrorewindvideostoresimulator/mods/273",
+    "pak_install_name": "zzzzzzzz_BetterHandInventory_P.pak",
+    "pak_sha256": "184d64b2471e41e2e297dcefe771a72b64836629603660c5ac8863e54119e599",
+    "ue4ss_install_name": "BetterHandInventory",
+    "ue4ss_files": [
+      {
+        "path": "Scripts/config.lua",
+        "size_bytes": 457,
+        "sha256": "ea2173176695e2661f631c3565e3e3d4a2710315cbda3d063977a63634fa409f"
+      },
+      {
+        "path": "Scripts/inventory_model.lua",
+        "size_bytes": 3320,
+        "sha256": "a831181a487a64324109e4dfe7bfa78b36e61b7f338b04b95d05f85e6f35fcff"
+      },
+      {
+        "path": "Scripts/main.lua",
+        "size_bytes": 14600,
+        "sha256": "088877084496ec9b7d61ae86de80c5632bba2825e7c1f3a9be454bfaea64a457"
+      },
+      {
+        "path": "Scripts/plus.lua",
+        "size_bytes": 32173,
+        "sha256": "f19d1796657cde42e57e03844af9fc95613c5320537508c94e25cb10671a1ead"
+      },
+      {
+        "path": "enabled.txt",
+        "size_bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "package_id": "nexus:black-market-every-day",
+    "name": "Black Market Every Day",
+    "version": "observed-2301",
+    "nexus_page_url": "https://www.nexusmods.com/retrorewindvideostoresimulator/mods/105",
+    "pak_install_name": "BlackMarketEveryDay_2301_P.pak",
+    "pak_sha256": "8c3a08b4240237c2896dd7390a141f66c3971c4b21b78ab46f9caec4b447c18f",
+    "ue4ss_install_name": "BlackMarketEveryDay",
+    "ue4ss_files": [
+      {
+        "path": "Scripts/main.lua",
+        "size_bytes": 9314,
+        "sha256": "ad48de58a189342233f095f9ef169c19650f02bae512b32ce789b9ebb8dd7c3f"
+      },
+      {
+        "path": "enabled.txt",
+        "size_bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "package_id": "local:better-movie-database",
+    "name": "Better Movie Database",
+    "version": "observed-local",
+    "pak_install_name": "zzzzzzzz_BetterMovieDatabase_P.pak",
+    "pak_sha256": "e944abb48c655cd7a480cd8795151aac58287b6e919b01c4a10baef9e0098ae6",
+    "ue4ss_install_name": "BetterMovieDatabase",
+    "ue4ss_files": [
+      {
+        "path": "Scripts/config.lua",
+        "size_bytes": 167,
+        "sha256": "572cc1d1feb107fb5be7a59f7d795dc96fec7375fdca5593123ea043ab896d38"
+      },
+      {
+        "path": "Scripts/main.lua",
+        "size_bytes": 17591,
+        "sha256": "807a377e9e413b996ee0571b618b574c8e0fa87a64cdd64b238e281f456018db"
+      },
+      {
+        "path": "enabled.txt",
+        "size_bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  }
+]

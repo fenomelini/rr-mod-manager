@@ -1,0 +1,15 @@
+[package]
+name = "rrmm-pak-worker"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+rrmm-pak = { path = "../../crates/rrmm-pak" }
+rrmm-worker-sandbox = { path = "../../crates/rrmm-worker-sandbox" }
+serde_json.workspace = true
+
+[dev-dependencies]
+repak-trumank.workspace = true
+tempfile.workspace = true

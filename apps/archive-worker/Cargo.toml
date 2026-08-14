@@ -1,0 +1,15 @@
+[package]
+name = "rrmm-archive-worker"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+rrmm-archive = { path = "../../crates/rrmm-archive" }
+rrmm-worker-sandbox = { path = "../../crates/rrmm-worker-sandbox" }
+serde_json.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+zip.workspace = true

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "local:smart-shelf-organizer",
+  "name": "Smart Shelf Organizer",
+  "version": "0.1.0-dev",
+  "game": {
+    "steam_app_id": 3552140,
+    "supported_build_ids": ["23896268"],
+    "unreal_engine": "5.4.4"
+  },
+  "source": {
+    "provider": "local"
+  },
+  "components": [
+    {
+      "id": "ue4ss",
+      "type": "ue4ss",
+      "root": "SmartShelfOrganizer",
+      "required": true,
+      "install_name": "SmartShelfOrganizer"
+    }
+  ],
+  "runtime_requirements": {
+    "ue4ss_loader_policy": "ue4ss:smart-shelf-662df915-compatible"
+  },
+  "persistent_effects": [
+    "Assigned shelf genres are stored in vanilla shelf save data and remain after uninstall.",
+    "The module creates SmartShelfOrganizer/zone_profiles.tsv at runtime; deleting it removes the additional age and critic policies."
+  ],
+  "install_notes": [
+    "Development prototype: employee redirection and visual policy tags are disabled.",
+    "In-game compatibility and save/reload verification are incomplete; this package is not a public release."
+  ]
+}

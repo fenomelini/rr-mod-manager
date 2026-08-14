@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "compat:example-a-example-b",
+  "game_build": "23896268",
+  "matches": [
+    {
+      "package_id": "local:example-a",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "package_id": "local:example-b",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "operations": [
+    {
+      "type": "replace_with_combined",
+      "remove_package_ids": ["local:example-a", "local:example-b"],
+      "combined_package_id": "local:example-combined",
+      "combined_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  ],
+  "verification": {
+    "offline": ["Verify exact source and output hashes"],
+    "in_game": ["Exercise both combined behaviors on the supported build"]
+  }
+}

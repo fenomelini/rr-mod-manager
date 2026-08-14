@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "nexus:unrewound-tape-fee-employee-fee-policy",
+  "name": "Unrewound Tape Fee + Employee Fee Policy",
+  "version": "1.0.0",
+  "game": {
+    "steam_app_id": 3552140,
+    "supported_build_ids": ["23896268"],
+    "unreal_engine": "5.4.4"
+  },
+  "source": {
+    "provider": "nexus",
+    "game_domain": "retrorewindvideostoresimulator",
+    "mod_id": 283,
+    "url": "https://www.nexusmods.com/retrorewindvideostoresimulator/mods/283"
+  },
+  "components": [
+    {
+      "id": "pak",
+      "type": "pak",
+      "root": "zzzzzzzz_UnrewoundTapeFee_EmployeeFeePolicy_P.pak",
+      "required": true,
+      "install_name": "zzzzzzzz_UnrewoundTapeFee_EmployeeFeePolicy_P.pak",
+      "sha256": "6dc3fb78211ea1bb9118926a09dae4956ebc7d3744651b329ad8e9049f11d66e"
+    }
+  ],
+  "replaces": [
+    "nexus:employee-fee-policy",
+    "nexus:unrewound-tape-fee"
+  ],
+  "install_notes": [
+    "This reviewed package preserves both standalone behaviors in one cooked PAK."
+  ]
+}

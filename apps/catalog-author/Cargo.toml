@@ -1,0 +1,23 @@
+[package]
+name = "rrmm-catalog-author"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+base64.workspace = true
+clap.workspace = true
+ed25519-dalek.workspace = true
+libc.workspace = true
+rand_core.workspace = true
+rrmm-recipes = { path = "../../crates/rrmm-recipes" }
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+tempfile.workspace = true
+zeroize.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

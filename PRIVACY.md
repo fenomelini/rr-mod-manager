@@ -1,41 +1,65 @@
-# Privacy
+# Privacy Policy
 
-RR Mod Manager is local-first and does not use behavioral telemetry. It does
-not automatically send installed mod lists, game paths, profile names, file
-hashes, diagnostics, logs, or database contents.
+## Summary
+
+RR Mod Manager is local-first and does not use behavioral telemetry. It does not
+automatically send installed mod lists, game paths, profile names, archive
+hashes, diagnostics, logs, or database content.
+
+This policy describes the current pre-release implementation. Nexus
+authentication, downloads, and application updates are not enabled yet and will
+require a policy review before public release.
 
 ## Local Data
 
-The application stores the information required to manage mods in the current
-user's local application-data directory. This includes profiles, preferences,
-imported mod files, verified caches, deployment records, backups, temporary
-staging, and interrupted-operation recovery data.
+The application stores data under the operating system's local application-data
+directory, including:
 
-Profile and mod deletion is initiated by the user. Recovery records and backups
-may remain while they are needed to restore an incomplete operation safely.
+- SQLite state for installations, profiles, preferences, and verified caches.
+- Immutable imported artifacts identified internally by SHA-256.
+- Deployment receipts, journals, backups, and temporary staging.
+- User-selected game and archive locations needed to perform requested work.
+
+Profile and artifact deletion is user initiated. Deployment backups and recovery
+evidence may remain while required to restore user files safely. A future data
+retention or cleanup control must not remove evidence needed by an incomplete
+transaction.
 
 ## Network Access
 
-Network access occurs only for actions started by the user, such as installing
-the supported UE4SS build. Nexus Mods login, managed Nexus downloads, and
-automatic application updates are not available in version `0.1.0`.
+Current network access is user initiated:
 
-Offline mode blocks new network requests. Files that were already downloaded,
-verified, and cached remain available locally.
+- Downloading the single pinned UE4SS build from its fixed HTTPS host after
+  validating host, size, and SHA-256.
+- The isolated `rrmm-nexus` development client can request Nexus's anonymous
+  Retro Rewind trending feed from the fixed v3 API origin, but it is not wired to
+  the desktop UI.
+
+Offline mode is persisted locally and blocks network cache misses before a
+request is made. Verified cached artifacts remain usable offline.
+
+Future Nexus authentication must store credentials only in the operating-system
+credential store. Credentials, temporary `nxm` authorization, and presigned URLs
+must never enter SQLite, logs, analytics, problem reports, or unrelated hosts.
 
 ## Problem Reports
 
-Problem reports are local files created only after the user requests them. RR
-Mod Manager shows a preview before saving and does not upload or transmit the
-report.
-
-A report may include an anonymized manager-state summary, the affected mod, the
-user's description, game and loader versions, and a bounded redacted log
-excerpt. Additional details require explicit selection. Automatic redaction is
-not infallible, so review every included file before sharing the report.
+Problem reports are user-initiated local ZIP exports. Their preview can include
+an anonymized manager-state summary, the affected mod, the user's own description,
+game and loader build information, a bounded redacted excerpt from the latest safe
+`UE4SS.log`, and, with explicit consent, the active-mod list or a larger redacted
+log. Complete log inclusion is disabled by default. Automatic redaction is not
+infallible, so every generated file is shown for review before the user chooses a local save
+destination. RR Mod Manager does not upload or transmit these reports.
 
 ## External Services
 
-Opening a mod page transfers control to the user's web browser and is governed
-by that website's privacy policy. RR Mod Manager does not scrape Nexus Mods or
-send credentials to third-party download hosts.
+Opening a reviewed Nexus page transfers control to the user's browser and is
+subject to Nexus Mods' privacy terms. RR Mod Manager does not scrape Nexus pages,
+mirror its catalog, or send Nexus API keys to CDN or presigned storage hosts.
+
+## Changes
+
+Any addition of authentication, updates, crash reporting, analytics, or new
+network hosts requires updating this policy and the in-app privacy disclosure
+before release. Mandatory telemetry is not planned.
