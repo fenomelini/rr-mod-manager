@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rrmodmanager.example/schemas/recipe.schema.json",
+  "title": "RR Mod Manager Compatibility Recipe",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "game_build", "matches", "operations", "verification"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]{2,127}$" },
+    "game_build": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+    "matches": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["package_id", "sha256"],
+        "properties": {
+          "package_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]{2,127}$" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        }
+      }
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "winner_package_id", "resource"],
+            "properties": {
+              "type": { "const": "select_winner" },
+              "winner_package_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]{2,127}$" },
+              "resource": { "type": "string", "minLength": 1, "maxLength": 4096, "pattern": "^(?![A-Za-z]:)(?![/\\\\])(?!.*(?:^|[/\\\\])\\.\\.(?:[/\\\\]|$)).+$" }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "remove_package_ids", "combined_package_id", "combined_sha256"],
+            "properties": {
+              "type": { "const": "replace_with_combined" },
+              "remove_package_ids": { "type": "array", "minItems": 2, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]{2,127}$" } },
+              "combined_package_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]{2,127}$" },
+              "combined_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "package_id", "install_name"],
+            "properties": {
+              "type": { "const": "require_install_name" },
+              "package_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]{2,127}$" },
+              "install_name": { "type": "string", "pattern": "^[^/\\\\]+\\.[pP][aA][kK]$" }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "package_id", "component_id", "reason"],
+            "properties": {
+              "type": { "const": "disable_component" },
+              "package_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]{2,127}$" },
+              "component_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{1,63}$" },
+              "reason": { "type": "string", "minLength": 1, "maxLength": 500, "pattern": "^[^\\r\\n\\u0000]+$" }
+            }
+          }
+        ]
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["offline", "in_game"],
+      "properties": {
+        "offline": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 500, "pattern": "^[^\\r\\n\\u0000]+$" } },
+        "in_game": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 500, "pattern": "^[^\\r\\n\\u0000]+$" } }
+      }
+    }
+  }
+}

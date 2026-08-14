@@ -1,0 +1,10 @@
+{
+  "signed": {
+    "schema_version": 1,
+    "sequence": 1,
+    "issued_at": 0,
+    "expires_at": 4102444800,
+    "recipes": []
+  },
+  "signatures": []
+}

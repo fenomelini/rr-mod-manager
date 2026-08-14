@@ -1,0 +1,21 @@
+[package]
+name = "rrmm-recipes"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+base64.workspace = true
+ed25519-dalek.workspace = true
+rrmm-archive = { path = "../rrmm-archive" }
+rrmm-artifacts = { path = "../rrmm-artifacts" }
+rrmm-manifest = { path = "../rrmm-manifest" }
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+zip.workspace = true

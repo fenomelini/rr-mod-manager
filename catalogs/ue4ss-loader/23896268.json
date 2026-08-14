@@ -1,0 +1,12 @@
+{
+  "build_id": 23896268,
+  "loader_build_id": "ue4ss-662df91503379fc383bc745f7ade795d7b2ca215",
+  "filename": "UE4SS_v3.0.1-1018-g662df915.zip",
+  "url": "https://github.com/UE4SS-RE/RE-UE4SS/releases/download/experimental/UE4SS_v3.0.1-1018-g662df915.zip",
+  "archive_size": 7178883,
+  "archive_sha256": "590ae4c6463db61497123b9ed35373596c39fb27f736e2078a02b476599671ba",
+  "proxy_path": "dwmapi.dll",
+  "proxy_sha256": "bcf68c7571e993879fbf24e2671f742a41635e7af467f3c6a4f5ec9b4cab502f",
+  "core_path": "ue4ss/UE4SS.dll",
+  "core_sha256": "d6f35284bf0344cd54da7c1027ed124f0a499d58c076a30fb0b4b73fe0175b02"
+}

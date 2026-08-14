@@ -1,0 +1,68 @@
+[workspace]
+members = [
+  "apps/archive-worker",
+  "apps/catalog-author",
+  "apps/cli",
+  "apps/pak-worker",
+  "apps/desktop/src-tauri",
+  "crates/rrmm-archive",
+  "crates/rrmm-application",
+  "crates/rrmm-artifacts",
+  "crates/rrmm-conflicts",
+  "crates/rrmm-domain",
+  "crates/rrmm-deploy",
+  "crates/rrmm-manifest",
+  "crates/rrmm-nexus",
+  "crates/rrmm-pak",
+  "crates/rrmm-recipes",
+  "crates/rrmm-steam",
+  "crates/rrmm-store",
+  "crates/rrmm-ue4ss",
+  "crates/rrmm-worker-sandbox",
+]
+exclude = ["fuzz"]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.2"
+edition = "2024"
+rust-version = "1.97.1"
+license = "MIT"
+
+[workspace.dependencies]
+anyhow = "1.0"
+base64 = "0.22"
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+clap = { version = "4.5", features = ["derive"] }
+dirs = "6.0"
+ed25519-dalek = "2.2"
+hex = "0.4"
+libc = "0.2"
+rusqlite = { version = "0.37", features = ["bundled"] }
+rand_core = { version = "0.6", features = ["getrandom"] }
+reqwest = { version = "0.12", default-features = false, features = ["blocking", "rustls-tls"] }
+repak-trumank = { package = "repak", git = "https://github.com/trumank/repak", rev = "e215472c51db69328b1ce77be2db24d24c1d646b", default-features = false, features = ["compression"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sevenz-rust2 = { version = "0.21.4", default-features = false, features = ["bzip2", "deflate", "ppmd", "util"] }
+sha2 = "0.10"
+sysinfo = "0.37"
+tempfile = "3.20"
+thiserror = "2.0"
+unicode-casefold = "0.2"
+unicode-normalization = "0.1"
+walkdir = "2.5"
+zip = { version = "8.6", default-features = false, features = ["deflate-flate2-zlib-rs"] }
+zeroize = "1.8"
+
+[workspace.dependencies.winreg]
+version = "0.55"
+
+# Local AppImages keep debug safety gates but run hashing/planning code close to
+# release speed. Dependency optimization matters most for SHA-256, SQLite, and PAK parsing.
+[profile.dev]
+opt-level = 2
+debug = 1
+
+[profile.dev.package."*"]
+opt-level = 3

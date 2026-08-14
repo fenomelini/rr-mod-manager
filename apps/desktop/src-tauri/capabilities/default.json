@@ -1,0 +1,17 @@
+{
+  "identifier": "default",
+  "description": "Narrow capabilities for the local RR Mod Manager window",
+  "local": true,
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "dialog:allow-open",
+    "dialog:allow-save",
+    {
+      "identifier": "opener:allow-open-url",
+      "allow": [
+        { "url": "https://www.nexusmods.com/*" }
+      ]
+    }
+  ]
+}

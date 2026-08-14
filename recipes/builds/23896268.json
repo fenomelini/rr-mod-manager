@@ -1,0 +1,66 @@
+{
+  "app_id": 3552140,
+  "build_id": 23896268,
+  "engine_version": "5.4.4",
+  "pak_version": 11,
+  "critical_files": [
+    {
+      "relative_path": "RetroRewind.exe",
+      "size": 441856,
+      "sha256": "f22051cac3756c4080ff376ec42c58dc6352e35c4c10efbe658770b9a54374ec"
+    },
+    {
+      "relative_path": "RetroRewind/Binaries/Win64/RetroRewind-Win64-Shipping.exe",
+      "size": 141241856,
+      "sha256": "ee9b2a0e7d0ab63e91dd3ec3a23aa033723c50ac777104a31c41b46b8b5f437d"
+    }
+  ],
+  "ue4ss_loader_builds": [
+    {
+      "id": "ue4ss-v3.0.1-stable",
+      "proxy_sha256": "ce596412befa68c30b7f88f65beb77d9bdad55e9b96a276a5a9cf690c63f24bb",
+      "core_sha256": "8ac18fbffc1ef96b0662d4a2d537b3f224c26d65caaba7989a9404c566102b26"
+    },
+    {
+      "id": "ue4ss-0196ef294f8525d6a492ae0b41b0c18ad5ccd84b",
+      "proxy_sha256": "598d95a170389a80ceea52d9fa208dc55fc7a652a5283e440bc19a06bc17f31e",
+      "core_sha256": "df9e6e9a2280972b1c28ce590700feacc752b447204f8baadeb95f5776957055"
+    },
+    {
+      "id": "ue4ss-662df91503379fc383bc745f7ade795d7b2ca215",
+      "proxy_sha256": "bcf68c7571e993879fbf24e2671f742a41635e7af467f3c6a4f5ec9b4cab502f",
+      "core_sha256": "d6f35284bf0344cd54da7c1027ed124f0a499d58c076a30fb0b4b73fe0175b02"
+    }
+  ],
+  "ue4ss_loader_policies": [
+    {
+      "id": "ue4ss:smart-shelf-662df915-compatible",
+      "allowed_build_ids": [
+        "ue4ss-662df91503379fc383bc745f7ade795d7b2ca215"
+      ],
+      "known_unsafe_build_ids": [
+        "ue4ss-0196ef294f8525d6a492ae0b41b0c18ad5ccd84b"
+      ]
+    },
+    {
+      "id": "ue4ss:faster-returns-supported",
+      "allowed_build_ids": [
+        "ue4ss-v3.0.1-stable",
+        "ue4ss-662df91503379fc383bc745f7ade795d7b2ca215"
+      ],
+      "known_unsafe_build_ids": [
+        "ue4ss-0196ef294f8525d6a492ae0b41b0c18ad5ccd84b"
+      ]
+    },
+    {
+      "id": "ue4ss:local-lua-supported",
+      "allowed_build_ids": [
+        "ue4ss-v3.0.1-stable",
+        "ue4ss-662df91503379fc383bc745f7ade795d7b2ca215"
+      ],
+      "known_unsafe_build_ids": [
+        "ue4ss-0196ef294f8525d6a492ae0b41b0c18ad5ccd84b"
+      ]
+    }
+  ]
+}

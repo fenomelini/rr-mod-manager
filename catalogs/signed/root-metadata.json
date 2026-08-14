@@ -1,0 +1,10 @@
+{
+  "signed": {
+    "schema_version": 1,
+    "generation": 1,
+    "expires_at": 4102444800,
+    "online_keys": [],
+    "revoked_online_key_ids": []
+  },
+  "signatures": []
+}

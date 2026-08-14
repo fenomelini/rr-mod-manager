@@ -1,0 +1,19 @@
+FROM node:24-bookworm
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      build-essential ca-certificates clang curl file lld llvm nsis && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV RUSTUP_HOME=/opt/rustup
+ENV CARGO_HOME=/opt/cargo
+ENV PATH=/opt/cargo/bin:/usr/local/bin:/usr/bin
+
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
+      sh -s -- -y --default-toolchain 1.97.1 --profile minimal \
+      --target x86_64-pc-windows-msvc && \
+    cargo install cargo-xwin --version 0.22.0 --locked && \
+    chmod -R a+rX /opt/rustup /opt/cargo && \
+    corepack enable && corepack prepare pnpm@10.13.1 --activate
+
+WORKDIR /workspace

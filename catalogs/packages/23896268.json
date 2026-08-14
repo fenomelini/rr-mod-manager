@@ -1,0 +1,217 @@
+[
+  {
+    "artifact_sha256": "8be6b46d8dea03e38794fe37c9c44daf1229518b44299ddcbd78dd40473c7504",
+    "manifest": {
+      "schema_version": 1,
+      "id": "nexus:unrewound-tape-fee",
+      "name": "Unrewound Tape Fee",
+      "version": "1.0.0",
+      "game": {
+        "steam_app_id": 3552140,
+        "supported_build_ids": ["23896268"],
+        "unreal_engine": "5.4.4"
+      },
+      "source": {
+        "provider": "nexus",
+        "game_domain": "retrorewindvideostoresimulator",
+        "mod_id": 283,
+        "url": "https://www.nexusmods.com/retrorewindvideostoresimulator/mods/283"
+      },
+      "components": [
+        {
+          "id": "pak",
+          "type": "pak",
+          "root": "zzzzzzzz_UnrewoundTapeFee_P.pak",
+          "required": true,
+          "install_name": "zzzzzzzz_UnrewoundTapeFee_P.pak",
+          "sha256": "699870c011643e7cf7e631d7815773adb7e334ca51bad9282b936e757318da28"
+        }
+      ],
+      "incompatibilities": ["nexus:employee-fee-policy"],
+      "install_notes": [
+        "Use the reviewed combined package when Employee Fee Policy is selected."
+      ]
+    },
+    "provenance": {
+      "kind": "inferred",
+      "confidence": "high",
+      "reviewed": true,
+      "issues": []
+    }
+  },
+  {
+    "artifact_sha256": "bc4e67959f9ef9220eb5fb2c981e0669fde3b75c08d354200c4465c5ee19cfce",
+    "manifest": {
+      "schema_version": 1,
+      "id": "nexus:employee-fee-policy",
+      "name": "Employee Fee Policy",
+      "version": "1.0.0",
+      "game": {
+        "steam_app_id": 3552140,
+        "supported_build_ids": ["23896268"],
+        "unreal_engine": "5.4.4"
+      },
+      "source": {
+        "provider": "nexus",
+        "game_domain": "retrorewindvideostoresimulator",
+        "mod_id": 280,
+        "url": "https://www.nexusmods.com/retrorewindvideostoresimulator/mods/280"
+      },
+      "components": [
+        {
+          "id": "pak",
+          "type": "pak",
+          "root": "zzzzzzzz_EmployeeFeePolicy_P.pak",
+          "required": true,
+          "install_name": "zzzzzzzz_EmployeeFeePolicy_P.pak",
+          "sha256": "60a9cdf5f2e6b9c35aad6401298ed11e307644491a90687ff613d63a0365cb1b"
+        }
+      ],
+      "incompatibilities": ["nexus:unrewound-tape-fee"],
+      "install_notes": [
+        "Use the reviewed combined package when Unrewound Tape Fee is selected."
+      ]
+    },
+    "provenance": {
+      "kind": "inferred",
+      "confidence": "high",
+      "reviewed": true,
+      "issues": []
+    }
+  },
+  {
+    "artifact_sha256": "8a151b1f80c6e43444e303711fb5470058875a7816dd141864452a1d73ad47d9",
+    "manifest": {
+      "schema_version": 1,
+      "id": "nexus:unrewound-tape-fee-employee-fee-policy",
+      "name": "Unrewound Tape Fee + Employee Fee Policy",
+      "version": "1.0.0",
+      "game": {
+        "steam_app_id": 3552140,
+        "supported_build_ids": ["23896268"],
+        "unreal_engine": "5.4.4"
+      },
+      "source": {
+        "provider": "nexus",
+        "game_domain": "retrorewindvideostoresimulator",
+        "mod_id": 283,
+        "url": "https://www.nexusmods.com/retrorewindvideostoresimulator/mods/283"
+      },
+      "components": [
+        {
+          "id": "pak",
+          "type": "pak",
+          "root": "zzzzzzzz_UnrewoundTapeFee_EmployeeFeePolicy_P.pak",
+          "required": true,
+          "install_name": "zzzzzzzz_UnrewoundTapeFee_EmployeeFeePolicy_P.pak",
+          "sha256": "6dc3fb78211ea1bb9118926a09dae4956ebc7d3744651b329ad8e9049f11d66e"
+        }
+      ],
+      "replaces": [
+        "nexus:employee-fee-policy",
+        "nexus:unrewound-tape-fee"
+      ],
+      "install_notes": [
+        "This reviewed package preserves both standalone behaviors in one cooked PAK."
+      ]
+    },
+    "provenance": {
+      "kind": "inferred",
+      "confidence": "high",
+      "reviewed": true,
+      "issues": []
+    }
+  },
+  {
+    "artifact_sha256": "3eb3e8e41b1089549df14cb3558bbfc009c04971062984ee77f3b0c9d810a686",
+    "manifest": {
+      "schema_version": 1,
+      "id": "nexus:faster-returns",
+      "name": "Faster Returns",
+      "version": "1.1.0",
+      "game": {
+        "steam_app_id": 3552140,
+        "supported_build_ids": ["23896268"],
+        "unreal_engine": "5.4.4"
+      },
+      "source": {
+        "provider": "nexus",
+        "game_domain": "retrorewindvideostoresimulator",
+        "mod_id": 271,
+        "url": "https://www.nexusmods.com/retrorewindvideostoresimulator/mods/271"
+      },
+      "components": [
+        {
+          "id": "pak",
+          "type": "pak",
+          "root": "zzzzzzzz_FasterReturns_P.pak",
+          "required": true,
+          "install_name": "zzzzzzzz_FasterReturns_P.pak",
+          "sha256": "a0a252f7d3efe89ae652c779336ae9bfef3c80b08e91cd27490f4c9867c4a156"
+        },
+        {
+          "id": "ue4ss",
+          "type": "ue4ss",
+          "root": "FasterReturns",
+          "required": true,
+          "install_name": "FasterReturns"
+        }
+      ],
+      "runtime_requirements": {
+        "ue4ss_loader_policy": "ue4ss:faster-returns-supported"
+      },
+      "install_notes": [
+        "The PAK and FasterReturns UE4SS module are required together and are managed as one hybrid package."
+      ]
+    },
+    "provenance": {
+      "kind": "inferred",
+      "confidence": "high",
+      "reviewed": true,
+      "issues": []
+    }
+  },
+  {
+    "artifact_sha256": "32be01dd47833f8f61d0bfbe7b831b428bf10f4677f2db62aa4aba2b319d036e",
+    "manifest": {
+      "schema_version": 1,
+      "id": "local:smart-shelf-organizer",
+      "name": "Smart Shelf Organizer",
+      "version": "0.1.0-dev",
+      "game": {
+        "steam_app_id": 3552140,
+        "supported_build_ids": ["23896268"],
+        "unreal_engine": "5.4.4"
+      },
+      "source": {
+        "provider": "local"
+      },
+      "components": [
+        {
+          "id": "ue4ss",
+          "type": "ue4ss",
+          "root": "SmartShelfOrganizer",
+          "required": true,
+          "install_name": "SmartShelfOrganizer"
+        }
+      ],
+      "runtime_requirements": {
+        "ue4ss_loader_policy": "ue4ss:smart-shelf-662df915-compatible"
+      },
+      "persistent_effects": [
+        "Assigned shelf genres are stored in vanilla shelf save data and remain after uninstall.",
+        "The module creates SmartShelfOrganizer/zone_profiles.tsv at runtime; deleting it removes the additional age and critic policies."
+      ],
+      "install_notes": [
+        "Development prototype: employee redirection and visual policy tags are disabled.",
+        "In-game compatibility and save/reload verification are incomplete; this package is not a public release."
+      ]
+    },
+    "provenance": {
+      "kind": "inferred",
+      "confidence": "high",
+      "reviewed": true,
+      "issues": []
+    }
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "nexus:employee-fee-policy",
+  "name": "Employee Fee Policy",
+  "version": "1.0.0",
+  "game": {
+    "steam_app_id": 3552140,
+    "supported_build_ids": ["23896268"],
+    "unreal_engine": "5.4.4"
+  },
+  "source": {
+    "provider": "nexus",
+    "game_domain": "retrorewindvideostoresimulator",
+    "mod_id": 280,
+    "url": "https://www.nexusmods.com/retrorewindvideostoresimulator/mods/280"
+  },
+  "components": [
+    {
+      "id": "pak",
+      "type": "pak",
+      "root": "zzzzzzzz_EmployeeFeePolicy_P.pak",
+      "required": true,
+      "install_name": "zzzzzzzz_EmployeeFeePolicy_P.pak",
+      "sha256": "60a9cdf5f2e6b9c35aad6401298ed11e307644491a90687ff613d63a0365cb1b"
+    }
+  ],
+  "incompatibilities": ["nexus:unrewound-tape-fee"],
+  "install_notes": [
+    "Use the reviewed combined package when Unrewound Tape Fee is selected."
+  ]
+}
