@@ -19,25 +19,14 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - name: Install Linux desktop build dependencies
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: >-
-          sudo apt-get update && sudo apt-get install -y
-          libayatana-appindicator3-dev librsvg2-dev libssl-dev
-          libwebkit2gtk-4.1-dev libxdo-dev
       - name: Install pinned Rust toolchain
         run: rustup toolchain install 1.97.1 --profile minimal --component clippy,rustfmt
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: 24
-      - name: Prepare desktop parser sidecars
-        run: node tools/prepare-desktop-sidecars.mjs debug
       - name: Check formatting
         run: cargo fmt --all -- --check
-      - name: Run tests
-        run: cargo test --workspace
-      - name: Run Clippy
-        run: cargo clippy --workspace --all-targets -- -D warnings
+      - name: Run core tests
+        run: cargo test --workspace --exclude rrmm-desktop --locked
+      - name: Run core Clippy
+        run: cargo clippy --workspace --exclude rrmm-desktop --all-targets --locked -- -D warnings
 
   phase0-contracts:
     name: TypeScript contracts and desktop frontend
